@@ -1,0 +1,106 @@
+services:
+  database-service:
+    build:
+      context: ./services/database-service
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    container_name: database-service
+    restart: unless-stopped
+    stop_grace_period: 1m
+    env_file:
+      - .env
+    networks:
+      - clinical_rules_net
+    ports:
+      - "5432:5432"
+  ingestion-service:
+    build:
+      context: ./services/ingestion-service
+      dockerfile: Dockerfile
+    depends_on:
+      database-service:
+        condition: service_healthy
+    container_name: ingestion-service
+    restart: unless-stopped
+    stop_grace_period: 1m
+    env_file:
+      - .env
+    networks:
+      - clinical_rules_net
+    volumes:
+      # Maps your local data folder to the container's watch folder
+      - ./services/ingestion-service/data:/data_monitor
+    # Optional: ensure the container doesn't hog system memory
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+  rules-evaluation-service:
+    build:
+      context: ./services/rules-evaluation-service
+      dockerfile: Dockerfile
+    depends_on:
+       - ingestion-service
+    environment:
+      - DELAY_START=30
+    container_name: rules-evaluation-service
+    restart: unless-stopped
+    stop_grace_period: 1m
+    env_file:
+      - .env
+    networks:
+      - clinical_rules_net
+    # Optional: ensure the container doesn't hog system memory
+    deploy:
+      resources:
+        limits:
+          memory: 512M  
+  api-service:
+    build:
+      context: ./services/api-service
+      dockerfile: Dockerfile
+    depends_on:
+       - rules-evaluation-service
+    container_name: api-service
+    restart: unless-stopped
+    stop_grace_period: 1m
+    env_file:
+      - .env
+    networks:
+      - clinical_rules_net
+    ports:
+      - "8000:8000"
+    # Optional: ensure the container doesn't hog system memory
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+  web:
+    build:
+      context: ./app/web
+      dockerfile: Dockerfile
+    depends_on:
+      - api-service
+    container_name: web
+    restart: unless-stopped
+    networks:
+      - clinical_rules_net
+    ports:
+      - "8080:80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+networks:
+  clinical_rules_net:
+    external: false
+    name: clinical_rules_net

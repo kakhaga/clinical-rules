@@ -1,0 +1,43 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: osx-arm64
+# created-by: conda 26.1.1
+annotated-doc=0.0.4=pypi_0
+annotated-types=0.7.0=pypi_0
+anyio=4.13.0=pypi_0
+bzip2=1.0.8=hd037594_9
+ca-certificates=2026.2.25=hbd8a1cb_0
+click=8.3.2=pypi_0
+fastapi=0.136.0=pypi_0
+h11=0.16.0=pypi_0
+httptools=0.7.1=pypi_0
+idna=3.11=pypi_0
+libexpat=2.7.5=hf6b4638_0
+libffi=3.5.2=hcf2aa1b_0
+liblzma=5.8.3=h8088a28_0
+libsqlite=3.53.0=h1b79a29_0
+libzlib=1.3.2=h8088a28_2
+ncurses=6.5=h5e97a16_3
+openssl=3.6.2=hd24854e_0
+packaging=26.1=pyhc364b38_0
+pip=26.0.1=pyh8b19718_0
+psycopg=3.3.3=pypi_0
+psycopg-binary=3.3.3=pypi_0
+pydantic=2.13.2=pypi_0
+pydantic-core=2.46.2=pypi_0
+pydantic-settings=2.13.1=pypi_0
+python=3.12.13=h8561d8f_0_cpython
+python-dotenv=1.2.2=pypi_0
+pyyaml=6.0.3=pypi_0
+readline=8.3=h46df422_0
+setuptools=82.0.1=pyh332efcf_0
+starlette=1.0.0=pypi_0
+tk=8.6.13=h010d191_3
+typing-extensions=4.15.0=pypi_0
+typing-inspection=0.4.2=pypi_0
+tzdata=2025c=hc9c84f9_1
+uvicorn=0.44.0=pypi_0
+uvloop=0.22.1=pypi_0
+watchfiles=1.1.1=pypi_0
+websockets=16.0=pypi_0
+wheel=0.46.3=pyhd8ed1ab_0
