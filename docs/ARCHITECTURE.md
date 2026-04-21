@@ -47,3 +47,7 @@ This split is intentionally frontend-only for take-home scope.
 - Compose networking keeps services private except exposed ports (`5432`, `8000`, `8080`).
 - Pagination is offset/limit based.
 - API currently does not return total counts; frontend infers next-page availability from page-size response length.
+
+
+## Schema Design
+![Core Schema](./assets/core-schema.jpeg)
